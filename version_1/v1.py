@@ -15,4 +15,4 @@ api.init_app(v1)
 def show():
     return 'test'
 
-api.add_resource(Test,  '/test')
+api.add_resource(Test,  '/test/<string:id>')
