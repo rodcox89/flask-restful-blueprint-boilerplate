@@ -1,6 +1,7 @@
 from flask.ext import restful
 from flask.ext.cors import CORS
-from version_1.resources.dog import DogList
+from version_1.resources.dog import DogList, DogUpdate
+from version_1.resources.user import UserList, UserUpdate
 from flask import Blueprint, abort, jsonify
 
 # Declare the blueprint
@@ -18,5 +19,14 @@ api.init_app(v1)
 def show():
     return 'Hello World'
 
-# Add resources - Can include multiple routes
-api.add_resource(DogList, '/dogs/<int:id>', '/dogs')
+#############################################
+########## Resources to Add
+#############################################
+
+# Dogs
+api.add_resource(DogList, '/dogs')
+api.add_resource(DogUpdate, '/dogs/<int:id>')
+
+# Users
+api.add_resource(UserList, '/users')
+api.add_resource(UserUpdate, '/users/<int:id>')
