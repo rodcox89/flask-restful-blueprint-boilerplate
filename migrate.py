@@ -1,12 +1,12 @@
 ############################################################################################
 # Migrate script
 #
-# This file is necessary to initialize and keep track of database migrations. 
+# This file is necessary to initialize and keep track of database migrations.
 ############################################################################################
 from main import app
 from db.models import db
-from flask.ext.script import Manager
-from flask.ext.migrate import Migrate, MigrateCommand
+from flask_script import Manager
+from flask_migrate import Migrate, MigrateCommand
 
 migrate = Migrate(app, db)
 

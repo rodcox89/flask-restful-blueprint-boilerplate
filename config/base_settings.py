@@ -17,7 +17,7 @@ from datetime import timedelta
 
 # Flask Core Settings
 APP_NAME   = "DogTracker"
-DEBUB      = False
+DEBUG      = False
 HOST       = '127.0.0.1'
 PORT       = 5000
 SECRET_KEY = "SOME SECRET"
