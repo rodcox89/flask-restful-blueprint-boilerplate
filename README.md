@@ -30,7 +30,7 @@ As in the [project](https://github.com/Leo-G/Flask-SQLALchemy-RESTFUL-API) by **
 
 ## Before Running Server - Set Up Database:
 
-Create your DB in Postgres using the credentials stored in the ```db/base_settings.py``` file (see the ```setup.md``` file for instructions on doing this), and then run the following from the project root:
+Create your DB in Postgres using the credentials stored in the ```config/base_settings.py``` file (see the ```setup.md``` file for instructions on doing this), and then run the following from the project root:
 
 ```bash
 python3 migrate.py db init
