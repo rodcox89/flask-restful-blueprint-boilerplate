@@ -8,7 +8,7 @@
 import pytz, datetime
 from marshmallow import validate
 from sqlalchemy.orm import validates
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 from marshmallow_jsonapi import Schema, fields
 from flask_security import UserMixin, RoleMixin, SQLAlchemyUserDatastore
 
@@ -49,12 +49,37 @@ roles_users = db.Table('roles_users',
 
 
 class Role(db.Model, RoleMixin):
+    __tablename__ = 'role'
+
     id          = db.Column(db.Integer(), primary_key=True)
     name        = db.Column(db.String(80), unique=True)
     description = db.Column(db.String(255))
 
+    def __repr__(self):
+        return '<models.Role[name=%s]>' % self.name
+
+class RoleSchema(Schema):
+
+    # Validates for the different fields
+    id          = fields.Integer(dump_only=True)
+    name        = fields.String(validate=NOT_BLANK)
+    description = fields.String(validate=NOT_BLANK)
+
+    # Self links
+    def get_top_level_links(self, data, many):
+        if many:
+            self_link = "/roles/"
+        else:
+            self_link = "/roles/{}".format(data['id'])
+        return {'self': self_link}
+
+    class Meta:
+        type_ = 'role'
+
 
 class User(db.Model, UserMixin):
+    __tablename__ = 'user'
+
     id               = db.Column(db.Integer, primary_key=True)
     email            = db.Column(db.String(255), unique=True)
     password         = db.Column(db.String(255))
@@ -67,8 +92,9 @@ class User(db.Model, UserMixin):
     last_login_ip    = db.Column(db.String(255))
     current_login_ip = db.Column(db.String(255))
     login_count      = db.Column(db.Integer())
-    roles            = db.relationship('Role', secondary=roles_users,
-                                    backref=db.backref('users', lazy='dynamic'))
+
+    roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
+    dogs  = db.relationship('Dog', backref="owner")
 
     # http://docs.sqlalchemy.org/en/rel_1_0/orm/mapped_attributes.html#simple-validators
     @validates('email')
@@ -95,6 +121,21 @@ class UserSchema(Schema):
     current_login_ip = fields.String(dump_only=True)
     login_count      = fields.Integer(dump_only=True)
 
+    roles = fields.Relationship(many=True,
+                                include_resource_linkage=True,
+                                type_='role',
+                                schema='RoleSchema',
+                                # related_url='/roles/{role_id}',
+                                # related_url_kwargs={'role_id': '<role.id>'}
+    )
+    dogs  = fields.Relationship(many=True,
+                                include_resource_linkage=True,
+                                type_='dog',
+                                schema='DogSchema',
+                                # related_url='/dogs/{dog_id}',
+                                # related_url_kwargs={'dog_id': '<dog.id>'}
+    )
+
     # Self links
     def get_top_level_links(self, data, many):
         if many:
@@ -112,18 +153,33 @@ user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 
 
 class Dog(db.Model, CRUD):
+    __tablename__ = 'dog'
+
     id           = db.Column(db.Integer, primary_key=True)
     dog_type     = db.Column(db.String, nullable=False, unique=True)
     date_created = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp(), nullable=False)
+    owner_id     = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __init__(self, dog_type):
         self.dog_type = dog_type
 
+    def __repr__(self):
+        return '<models.Dog[dog_type=%s]>' % self.dog_type
+
 class DogSchema(Schema):
 
     # Validation for the different fields
-    id        = fields.Integer(dump_only=True)
-    dog_type  = fields.String(validate=NOT_BLANK)
+    id           = fields.Integer(dump_only=True)
+    dog_type     = fields.String(validate=NOT_BLANK)
+    date_created = fields.DateTime(dump_only=True)
+
+    owner = fields.Relationship(related_url='/users/{user_id}',
+                                related_url_kwargs={'user_id': '<owner_id>'},
+                                many=False,
+                                include_resource_linkage=True,
+                                type_='user',
+                                schema='UserSchema'
+    )
 
     # Self links
     def get_top_level_links(self, data, many):

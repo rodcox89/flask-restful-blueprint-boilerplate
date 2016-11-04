@@ -10,10 +10,10 @@ import getpass
 from flask import Flask
 from version_1 import v1
 from flask_jwt import JWT
-from db.models import User
 from flask_mail import Mail
 from authentication import *
-from flask.ext.cors import CORS
+from flask_cors import CORS
+from db.models import User, Dog
 from flask_security import Security
 from flask_security.utils import encrypt_password
 
@@ -66,9 +66,46 @@ jwt      = JWT(app, authenticate, load_user)
 # https://github.com/graup/flask-restless-security/blob/master/server.py
 #############################################
 def create_test_models():
-    user_datastore.create_user(email='test@gmail.com', password=encrypt_password('test'))
-    user_datastore.create_user(email='test2@gmail.com', password=encrypt_password('test2'))
+    # Create the default roles
+    basic = user_datastore.find_or_create_role(name='User', description="Basic user")
+    admin = user_datastore.find_or_create_role(name='Admin', description='API Administrator')
+
+    # Create the default users
+    user_datastore.create_user(email='test1@gmail.com', password=encrypt_password('testing123'), first_name="Test User", last_name="1")
+    user_datastore.create_user(email='test2@gmail.com', password=encrypt_password('testing123'), first_name="Test User", last_name="2")
+    user_datastore.create_user(email='test3@gmail.com', password=encrypt_password('testing123'), first_name="Test User", last_name="3")
+
+    # Save users
     db.session.commit()
+
+    # Activate users and assign roles
+    user1 = user_datastore.find_user(email='test1@gmail.com')
+    user2 = user_datastore.find_user(email='test2@gmail.com')
+    user3 = user_datastore.find_user(email='test3@gmail.com')
+
+    user_datastore.activate_user(user1)
+    user_datastore.activate_user(user2)
+    user_datastore.activate_user(user3)
+
+    user_datastore.add_role_to_user(user1, admin)
+    user_datastore.add_role_to_user(user2, basic)
+    user_datastore.add_role_to_user(user3, basic)
+
+    # Save changes
+    db.session.commit()
+
+    # Create a couple of dogs and tie them to owners
+    dog       = Dog('Labrador')
+    dog.owner = user2
+    dog.add(dog)
+
+    dog       = Dog('Great Dane')
+    dog.owner = user2
+    dog.add(dog)
+
+    dog       = Dog('Husky')
+    dog.owner = user3
+    dog.add(dog)
 
 @app.before_first_request
 def bootstrap_app():

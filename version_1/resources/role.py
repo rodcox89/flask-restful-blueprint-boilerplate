@@ -1,17 +1,18 @@
 import json
+from flask_jwt import jwt_required
 from flask_restful import Resource
 from marshmallow import ValidationError
-from db.models import Dog, DogSchema, db
 from sqlalchemy.exc import SQLAlchemyError
-from flask import jsonify, make_response, request
+from flask import jsonify, make_response, request, abort
+from db.models import Role, RoleSchema, db, user_datastore
 
 
 # http://marshmallow.readthedocs.org/en/latest/quickstart.html#declaring-schemas
 # https://github.com/marshmallow-code/marshmallow-jsonapi
-schema = DogSchema(include_data=('owner',))
+schema = RoleSchema()
 
-class DogList(Resource):
-
+class RoleList(Resource):
+    @jwt_required()
     def get(self):
         '''
         http://jsonapi.org/format/#fetching
@@ -22,10 +23,11 @@ class DogList(Resource):
         does not exist, except when the request warrants a 200 OK response with null as the primary data
         (as described above) a self link as part of the top-level links object
         '''
-        dogs_query = Dog.query.all()
-        results    = schema.dump(dogs_query, many=True).data
+        roles_query = Role.query.all()
+        results     = schema.dump(roles_query, many=True).data
         return results
 
+    @jwt_required()
     def post(self):
         '''
         http://jsonapi.org/format/#crud
@@ -41,14 +43,16 @@ class DogList(Resource):
             # Validate Data
             schema.validate(raw_dict)
 
-            # Save the new dog
-            dog_dict = raw_dict['data']['attributes']
-            dog      = Dog(dog_dict['dog_type'])
-            dog.add(dog)
+            # Save the new user
+            role_dict = raw_dict['data']['attributes']
+            role = user_datastore.find_or_create_role(name=role_dict['name'],
+                                    description=role_dict['description'],
+            )
 
-            # Return the new dog information
-            query   = Dog.query.get(dog.id)
-            results = schema.dump(query).data
+            db.session.commit()
+
+            # Return new user information
+            results = schema.dump(role).data
             return results, 201
 
         except ValidationError as err:
@@ -63,8 +67,9 @@ class DogList(Resource):
             return resp
 
 
-class DogUpdate(Resource):
+class RoleUpdate(Resource):
 
+    @jwt_required()
     def get(self, id):
         '''
         http://jsonapi.org/format/#fetching
@@ -75,10 +80,11 @@ class DogUpdate(Resource):
         exist, except when the request warrants a 200 OK response with null as the primary data (as described above)
         a self link as part of the top-level links object
         '''
-        dog_query = Dog.query.get_or_404(id)
-        result    = schema.dump(dog_query).data
+        role_query = Role.query.get_or_404(id)
+        result     = schema.dump(role_query).data
         return result
 
+    @jwt_required()
     def patch(self, id):
         '''
         http://jsonapi.org/format/#crud-updating
@@ -95,17 +101,17 @@ class DogUpdate(Resource):
 
         A server MUST return 404 Not Found when processing a request to modify a resource that does not exist.
         '''
-        dog      = Dog.query.get_or_404(id)
+
+        role     = Role.query.get_or_404(id)
         raw_dict = request.get_json(force=True)
 
         try:
             schema.validate(raw_dict)
-            dog_dict = raw_dict['data']['attributes']
-            for key, value in dog_dict.items():
+            role_dict = raw_dict['data']['attributes']
+            for key, value in role_dict.items():
+                setattr(role, key, value)
 
-                setattr(dog, key, value)
-
-            dog.update()
+            db.session.commit()
             return self.get(id)
 
         except ValidationError as err:
@@ -119,14 +125,17 @@ class DogUpdate(Resource):
                 resp.status_code = 401
                 return resp
 
+    @jwt_required()
     def delete(self, id):
         '''
         http://jsonapi.org/format/#crud-deleting
         A server MUST return a 204 No Content status code if a deletion request is successful and no content is returned.
         '''
-        dog = Dog.query.get_or_404(id)
+        role  = Role.query.get_or_404(id)
+
         try:
-            delete               = dog.delete(dog)
+            delete = db.session.delete(role)
+            db.session.commit()
             response             = make_response()
             response.status_code = 204
             return response

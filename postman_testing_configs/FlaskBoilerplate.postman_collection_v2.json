@@ -1,0 +1,301 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Capstone",
+		"_postman_id": "3f0a3f15-a83d-0ed1-f1d1-5d5dfda69e3b",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Flask Boilerplate Get User",
+			"request": {
+				"url": "localhost:5000/api/v1/users/3",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZGVudGl0eSI6NiwibmJmIjoxNDcwMTc4Mzc3LCJpYXQiOjE0NzAxNzgzNzcsImV4cCI6MTQ3Mjc3MDM3N30.hbzWN1HFlolsrQhW4mAHeyYXmb1TkWTI7wd3s6PG_SQ",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Flask Boilerplate Get Role",
+			"request": {
+				"url": "localhost:5000/api/v1/roles/3",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGl0eSI6MSwiaWF0IjoxNDcwMzQ0NjAwLCJuYmYiOjE0NzAzNDQ2MDAsImV4cCI6MTQ3MjkzNjYwMH0.FyiTLU7tHF-wT1dqoLoAcBVMPgfcjuDBaC4MyH8CzGc",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Flask Boilerplate Get Dog",
+			"request": {
+				"url": "localhost:5000/api/v1/dogs/3",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Flask Boilerplate Get User List",
+			"request": {
+				"url": "localhost:5000/api/v1/users",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGl0eSI6MSwiaWF0IjoxNDcwMzQ0NjAwLCJuYmYiOjE0NzAzNDQ2MDAsImV4cCI6MTQ3MjkzNjYwMH0.FyiTLU7tHF-wT1dqoLoAcBVMPgfcjuDBaC4MyH8CzGc",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Flask Boilerplate Get Role List",
+			"request": {
+				"url": "localhost:5000/api/v1/roles",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGl0eSI6MSwiaWF0IjoxNDcwMzQ0NjAwLCJuYmYiOjE0NzAzNDQ2MDAsImV4cCI6MTQ3MjkzNjYwMH0.FyiTLU7tHF-wT1dqoLoAcBVMPgfcjuDBaC4MyH8CzGc",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Flask Boilerplate Get Dog List",
+			"request": {
+				"url": "localhost:5000/api/v1/dogs",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Flask Boilerplate Create User",
+			"request": {
+				"url": "localhost:5000/api/v1/users",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZGVudGl0eSI6NiwibmJmIjoxNDcwMTc4Mzc3LCJpYXQiOjE0NzAxNzgzNzcsImV4cCI6MTQ3Mjc3MDM3N30.hbzWN1HFlolsrQhW4mAHeyYXmb1TkWTI7wd3s6PG_SQ",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \n    \"data\" : {\n        \"type\": \"user\",\n        \"attributes\": {\n            \"email\": \"TestingUser1@gmail.com\",\n            \"password\": \"testing123\",\n            \"first_name\": \"TestingUser1\",\n            \"last_name\": \"None\"\n        }\n    }\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Flask Boilerplate Create Role",
+			"request": {
+				"url": "localhost:5000/api/v1/roles",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGl0eSI6MSwiaWF0IjoxNDcwMzQ0NjAwLCJuYmYiOjE0NzAzNDQ2MDAsImV4cCI6MTQ3MjkzNjYwMH0.FyiTLU7tHF-wT1dqoLoAcBVMPgfcjuDBaC4MyH8CzGc",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \n    \"data\" : {\n        \"type\": \"role\",\n        \"attributes\": {\n            \"name\": \"Paying\",\n            \"description\": \"Role for users paying for the services\"\n        }\n    }\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Flask Boilerplate Create Dog",
+			"request": {
+				"url": "localhost:5000/api/v1/dogs",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \n    \"data\" : {\n        \"type\": \"dog\",\n        \"attributes\": {\n            \"dog_type\": \"border collie\" \n        }\n    }\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Flask Boilerplate Update User",
+			"request": {
+				"url": "localhost:5000/api/v1/users/2",
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZGVudGl0eSI6NiwibmJmIjoxNDcwMTc4Mzc3LCJpYXQiOjE0NzAxNzgzNzcsImV4cCI6MTQ3Mjc3MDM3N30.hbzWN1HFlolsrQhW4mAHeyYXmb1TkWTI7wd3s6PG_SQ",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \n    \"data\" : {\n        \"type\": \"user\",\n        \"attributes\": {\n            \"email\": \"TestingUser2@gmail.com\",\n            \"password\": \"testing123\",\n            \"first_name\": \"Test User\",\n            \"last_name\": \"2\"\n        }\n    }\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Flask Boilerplate Update Role",
+			"request": {
+				"url": "localhost:5000/api/v1/roles/2",
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGl0eSI6MSwiaWF0IjoxNDcwMzQ0NjAwLCJuYmYiOjE0NzAzNDQ2MDAsImV4cCI6MTQ3MjkzNjYwMH0.FyiTLU7tHF-wT1dqoLoAcBVMPgfcjuDBaC4MyH8CzGc",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \n    \"data\" : {\n        \"type\": \"role\",\n        \"attributes\": {\n            \"description\": \"API administrator, highest privileges\"\n        }\n    }\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Flask Boilerplate Update Dog",
+			"request": {
+				"url": "localhost:5000/api/v1/dogs/1",
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \n    \"data\" : {\n        \"type\": \"dog\",\n        \"attributes\": {\n            \"dog_type\": \"collie\" \n        }\n    }\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Flask Boilerplate Delete User",
+			"request": {
+				"url": "localhost:5000/api/v1/users/2",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZGVudGl0eSI6NiwibmJmIjoxNDcwMTc4Mzc3LCJpYXQiOjE0NzAxNzgzNzcsImV4cCI6MTQ3Mjc3MDM3N30.hbzWN1HFlolsrQhW4mAHeyYXmb1TkWTI7wd3s6PG_SQ",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Flask Boilerplate Delete Role",
+			"request": {
+				"url": "localhost:5000/api/v1/roles/3",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGl0eSI6MSwiaWF0IjoxNDcwMzQ0NjAwLCJuYmYiOjE0NzAzNDQ2MDAsImV4cCI6MTQ3MjkzNjYwMH0.FyiTLU7tHF-wT1dqoLoAcBVMPgfcjuDBaC4MyH8CzGc",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Flask Boilerplate Delete Dog",
+			"request": {
+				"url": "localhost:5000/api/v1/dogs/1",
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Flask Boilerplate Get Auth Token",
+			"request": {
+				"url": "localhost:5000/api/v1/auth",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \n    \"ownername\": \"test1@gmail.com\",\n    \"ownerpassword\": \"testing123\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
